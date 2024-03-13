@@ -1,0 +1,74 @@
+{{!-- Largedly adopted from CS340 starter_code --}}
+<html>
+  <body>
+    <h1> Navigation Pane </h1>
+    [ <a href="/">Back to main page</a> ]
+    <p></p>
+        [ <a href="/classes">Manage Classes</a> | <a href="/instructors">Manage Instructors</a> 
+    | <a href="/students">Manage Students</a> | <a href="/registrations">Manage Registrations</a> | 
+    <a href="/registrationdetails">Manage Registration Details</a> | <a href="/sections">Manage Sections</a> | <a href="/departments">Manage Departments</a> ]
+    </body>
+</html>
+
+<h1>Manage Sections</h1>
+<p>View, add new, search for and update sections - All in ONE place!</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+
+<table id="sections-table">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.section}}>
+            <td>{{this.section}}</td>
+            <td>{{this.method}}</td>
+            <td><button onclick="deleteSection({{this.section}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_section.js"></script>
+
+<h2>Adding a new section</h2>
+<p>To add a new section, please enter its information below and click 'Submit'!</p>
+<form id="add-section-form-ajax">
+    <label for="input-section">Section: </label>
+    <input type="number" name="input-section" id="input-section">
+
+    <label for="input-method">Method: </label>
+    <input type="text" name="input-method" id="input-method">
+    
+    <input type="submit">
+</form>
+<script src="./js/add_section.js"></script>
+
+
+<h2>Updating A Section's Information Form</h2>
+<p>To update a specific Section's data select it from the drop-down menu on the left and input new data into the corresponding boxes.</p>
+<form id="update-section-form-ajax">
+
+    <label for="input-section_update">Section: </label>
+    <select name="input-section_update" id="mySelect">
+        <option value="test">Select a Section</option>
+        {{#each data}}
+        <option value="{{this.section}}">{{this.section}} {{this.method}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-method-update">Method: </label>
+    <input type="text" name="input-method" id="input-method-update">
+
+    <input type="submit">
+</form>
+
+<script src="./js/update_section.js"></script>

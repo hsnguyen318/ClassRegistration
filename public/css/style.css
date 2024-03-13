@@ -1,0 +1,29 @@
+body {
+    background-color: rgb(214, 193, 193);
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(206, 122, 26);
+    font-size: 20pt;
+}
+
+tr, th, td {
+    color: green;
+    border:1px solid rgb(2, 0, 0);
+    padding: left;
+}
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+    border: 1px solid #080808;
+    padding: 10px;
+  }
+
+a {
+    color: rgb(6, 6, 156);
+}
+

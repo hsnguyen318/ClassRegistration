@@ -1,0 +1,111 @@
+{{!-- Largedly adopted from CS340 starter_code --}}
+<html>
+  <body>
+    <h1> Navigation Pane  </h1>
+    [ <a href="/">Back to main page</a> ]
+    <p></p>
+    [ <a href="/classes">Manage Classes</a> | <a href="/instructors">Manage Instructors</a> 
+    | <a href="/students">Manage Students</a> | <a href="/registrations">Manage Registrations</a> | 
+    <a href="/registrationdetails">Manage Registration Details</a> | <a href="/sections">Manage Sections</a> | <a href="/departments">Manage Departments</a> ]
+    </body>
+</html>
+  <p>&nbsp;</p>
+
+<h1>Manage Instructors</h1>
+<p>View, add new, search for and update instructors - All in ONE place!</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+
+{{!-- Create a table --}}
+<table id="instructors-table">
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the attributes in order --}}
+        {{#each data}}
+        <tr data-value={{this.instructor_id}}>
+            <td>{{this.instructor_id}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.email}}</td>
+            <td><button onclick="deleteInstructor({{this.instructor_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_instructor.js"></script>
+
+{{!-- Form to add a record to the table using AJAX --}}
+<h2>Adding a new instructor</h2>
+<p>To add a new instructor, please enter information below and click 'Submit'!</p>
+<form id="add-instructor-form-ajax">
+    <label for="input-instructor_id">Instructor ID: </label>
+    <input type="number" name="input-instructor_id" id="input-instructor_id">
+    {{!-- onkeydown and pattern code referenced from https://www.w3schools.com/tags/att_input_pattern.asp --}}
+    <label for="input-first_name">First Name: </label>
+    <input type="text" name="input-first_name" id="input-first_name" onkeydown="return /[a-z]/i.test(event.key)">
+
+    <label for="input-last_name">Last Name: </label>
+    <input type="text" name="input-last_name" id="input-last_name" onkeydown="return /[a-z]/i.test(event.key)">
+    
+    <label for="input-email">Email: </label>
+    <input type="text" name="input-email" id="input-email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_instructor.js"></script>
+
+<h2>Search for Instructor using an HTML Form</h2>
+<p>Search by instructor name using the field below. Partial instructor last names are OK too!</p>
+<form id="search-instructor-html" method='GET' action='/instructors'>
+    <label for="input-instructor_name">Search by Instructor's Last Name: </label>
+    <input type="text" name="last_name" id="input-last_name-html-search">
+    
+    <input type="submit">
+    <a href='/instructors'><button>Reset</button></a>
+</form>
+
+<h2>Updating A Instructor's Information Form</h2>
+<p>To update a specific Instructor's data select their name from the drop-down menu on the left and input new data into corresponding boxes.</p>
+<form id="update-instructor-form-ajax">
+
+    <label for="input-instructor_id_update">Instructor ID: </label>
+    <select name="input-instructor_id_update" id="mySelect">
+        <option value="test">Select a Instructor</option>
+        {{#each data}}
+        <option value="{{this.instructor_id}}">{{this.first_name}} {{this.last_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-first_name">First Name: </label>
+    <input type="text" name="input-first_name" id="input-first_name-update" onkeydown="return /[a-z]/i.test(event.key)">
+
+    <label for="input-last_name">Last Name: </label>
+    <input type="text" name="input-last_name" id="input-last_name-update" onkeydown="return /[a-z]/i.test(event.key)">
+
+    <label for="input-email">Email: </label>
+    <input type="text" name="input-email" id="input-email-update" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+
+    
+    <input type="submit">
+</form>
+
+<script src="./js/update_instructor.js"></script>
+

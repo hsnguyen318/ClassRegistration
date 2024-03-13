@@ -1,0 +1,83 @@
+{{!-- Largedly adopted from CS340 starter_code --}}
+<html>
+  <body>
+    <h1> Navigation Pane  </h1>
+    [ <a href="/">Back to main page</a> ]
+    <p></p>
+    [ <a href="/classes">Manage Classes</a> | <a href="/instructors">Manage Instructors</a> 
+    | <a href="/students">Manage Students</a> | <a href="/registrations">Manage Registrations</a> | 
+    <a href="/registrationdetails">Manage Registration Details</a> | <a href="/sections">Manage Sections</a> | <a href="/departments">Manage Departments</a> ]
+    </body>
+</html>
+
+<p>&nbsp;</p>
+
+<h1>Manage Departments</h1>
+<p>View, add new, search for and update departments - All in ONE place!</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+
+<table id="departments-table">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.department_id}}>
+            <td>{{this.department_id}}</td>
+            <td>{{this.department_name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Adding a new Department</h2>
+<p>To add a new department, please enter its information below and click 'Submit'!</p>
+<form id="add-department-form-ajax">
+    <label for="input-department_id">Department ID: </label>
+    <input type="text" name="input-department_id" id="input-department_id">
+
+    <label for="input-department_name">Department Name: </label>
+    <input type="text" name="input-department_name" id="input-department_name">
+
+    <input type="submit">
+</form>
+<script src="./js/add_department.js"></script>
+
+<h2>Search for Department using an HTML Form</h2>
+<p>Search by department name using the field below. Partial department names are OK too!</p>
+<form id="search-department-html" method='GET' action='/departments'>
+    <label for="input-department_name">Search by Department Name: </label>
+    <input type="text" name="department_name" id="input-department_name-html-search">
+    
+    <input type="submit">
+    <a href='/departments'><button>Reset</button></a>
+</form>
+
+<h2>Updating A Department's Information Form</h2>
+<p>To update a specific Department's data select it from the drop-down menu on the left and input new data into the corresponding box.</p>
+<form id="update-department-form-ajax">
+
+    <label for="input-department_id_update">Department ID: </label>
+    <select name="input-department_id_update" id="mySelect">
+        <option value="test">Select a Department</option>
+        {{#each data}}
+        <option value="{{this.department_id}}">{{this.department_id}} {{this.department_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-department_name">Department name: </label>
+    <input type="text" name="input-department_name" id="input-department_name-update">
+
+    <input type="submit">
+</form>
+
+<script src="./js/update_department.js"></script>

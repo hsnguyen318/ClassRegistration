@@ -1,0 +1,128 @@
+{{!-- Largedly adopted from CS340 starter_code --}}
+<html>
+  <body>
+    <h1> Navigation Pane  </h1>
+    [ <a href="/">Back to main page</a> ]
+    <p></p>
+    [ <a href="/classes">Manage Classes</a> | <a href="/instructors">Manage Instructors</a> 
+    | <a href="/students">Manage Students</a> | <a href="/registrations">Manage Registrations</a> | 
+    <a href="/registrationdetails">Manage Registration Details</a> | <a href="/sections">Manage Sections</a> | <a href="/departments">Manage Departments</a> ]
+  </body>
+</html>
+  <p>&nbsp;</p>
+
+<h1>Manage Registration Details</h1>
+<p>View, add new, search for and update Registration Details - All in ONE place!</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+
+{{!-- Create a table --}}
+<table id="registration_details-table">
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the attributes in order --}}
+        {{#each data}}
+        <tr data-value={{this.registration_details_id}}>
+            <td>{{this.registration_details_id}}</td>
+            <td>{{this.registration_id}}</td>
+            <td>{{this.class_id}}</td>
+            <td><button onclick="deleteRegistrationDetails({{this.registration_details_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_registration_detail.js"></script>
+
+{{!-- Form to add a record to the table using AJAX --}}
+<h2>Adding a new registration detail</h2>
+<p>To add a new registration detail, please enter its information below and click 'Submit'!</p>
+<form id="add-registration_detail-form-ajax">
+    <label for="input-registration_details_id">Registration Details ID: </label>
+    <input type="number" name="input-registration_details_id" id="input-registration_details_id">
+
+    <label for="input-registration_id">Registration ID: </label>
+    <select name="input-registration_id" id="input-registration_id">
+        <option>Select a Registration ID</option>
+        {{#each registrations}}
+        <option value="{{this.registration_id}}">{{this.registration_id}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-class_id">Class: </label>
+    <select name="input-class_id" id="input-class_id">
+        <option value="">Select a Class</option>
+        {{#each classes}}
+        <option value="{{this.class_id}}">{{this.class_id}}-{{this.class_name}} {{this.year}} {{this.quarter}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_registration_detail.js"></script>
+
+<h2>Search for Registration Details using an HTML Form</h2>
+<p>Search by Registration IDs using the field below. Use either Registration ID or Last Name, or both. Insert full Registration ID for best result.</p>
+<form id="search-registrationdetail-html" method='GET' action='/registrationdetails'>
+    <label for="input-registration_id">Search by Registration ID: </label>
+    <input type="number" name="registration_id" id="input-registration_id-html-search">
+    {{!-- onkeydown and pattern code referenced from https://www.w3schools.com/tags/att_input_pattern.asp --}}
+    <label for="input-student_last_name">Search by Student Last Name: </label>
+    <input type="text" name="student_last_name" id="input-student_last_name-html-search" onkeydown="return /[a-z]/i.test(event.key)">
+
+    <input type="submit">
+    <a href='/registrationdetails'><button>Reset</button></a>
+</form>
+
+<h2>Updating A Registration detail's Information Form</h2>
+<p>To update a specific Registration detail's data, enter its ID and enter new data into corresponding boxes.</p>
+<form id="update-registration_detail-form-ajax">
+
+    <label for="input-registration_detail_id">Registration Details ID: </label>
+    <select name="input-registration_detail_id" id="mySelect">
+        <option value="test">Select a Registration Detail ID:</option>
+        {{#each data}}
+        <option value="{{this.registration_details_id}}">Detail ID: {{this.registration_details_id}} Reg ID: {{this.registration_id}} {{this.class_id}}</option>
+        {{/each}}
+    </select> 
+
+    <label for="input-registration_id">Registration ID: </label>
+    <select name="input-registration_id" id="input-registration_id-update">
+        <option>Select a Registration ID</option>
+        {{#each registrations}}
+        <option value="{{this.registration_id}}">{{this.registration_id}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-class_id">Class ID: </label>
+    <select name="input-class_id" id="input-class_id-update">
+        <option>Select a Class</option>
+        {{#each classes}}
+        <option value="{{this.class_id}}">{{this.class_id}} {{this.class_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+<script src="./js/update_registration_detail.js"></script>
+
+
+
